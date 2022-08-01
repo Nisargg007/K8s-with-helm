@@ -1,0 +1,1400 @@
+sudo nisarg@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ sudo su
+[sudo] password for nisarg: 
+root@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:/home/nisarg# su - developer
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ minikube status
+minikube
+type: Control Plane
+host: Stopped
+kubelet: Stopped
+apiserver: Stopped
+kubeconfig: Stopped
+
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ minikube start
+😄  minikube v1.26.0 on Ubuntu 22.04
+✨  Using the virtualbox driver based on existing profile
+👍  Starting control plane node minikube in cluster minikube
+🔄  Restarting existing virtualbox VM for "minikube" ...
+🐳  Preparing Kubernetes v1.24.1 on Docker 20.10.16 ...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl version 
+WARNING: This version information is deprecated and will be replaced with the output from kubectl version --short.  Use --output=yaml|json to get the full version.
+Client Version: version.Info{Major:"1", Minor:"24", GitVersion:"v1.24.0", GitCommit:"4ce5a8954017644c5420bae81d72b09b735c21f0", GitTreeState:"clean", BuildDate:"2022-05-03T13:46:05Z", GoVersion:"go1.18.1", Compiler:"gc", Platform:"linux/amd64"}
+Kustomize Version: v4.5.4
+Server Version: version.Info{Major:"1", Minor:"24", GitVersion:"v1.24.1", GitCommit:"3ddd0f45aa91e2f30c70734b175631bec5b5825a", GitTreeState:"clean", BuildDate:"2022-05-24T12:18:48Z", GoVersion:"go1.18.2", Compiler:"gc", Platform:"linux/amd64"}
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get nodes
+NAME       STATUS   ROLES           AGE     VERSION
+minikube   Ready    control-plane   3d15h   v1.24.1
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl describe node minikube
+Name:               minikube
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=minikube
+                    kubernetes.io/os=linux
+                    minikube.k8s.io/commit=f4b412861bb746be73053c9f6d2895f12cf78565
+                    minikube.k8s.io/name=minikube
+                    minikube.k8s.io/primary=true
+                    minikube.k8s.io/updated_at=2022_07_09T18_55_21_0700
+                    minikube.k8s.io/version=v1.26.0
+                    node-role.kubernetes.io/control-plane=
+                    node.kubernetes.io/exclude-from-external-load-balancers=
+Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///var/run/cri-dockerd.sock
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Sat, 09 Jul 2022 18:55:19 +0530
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  minikube
+  AcquireTime:     <unset>
+  RenewTime:       Wed, 13 Jul 2022 10:08:12 +0530
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Wed, 13 Jul 2022 10:04:09 +0530   Sat, 09 Jul 2022 18:55:19 +0530   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Wed, 13 Jul 2022 10:04:09 +0530   Sat, 09 Jul 2022 18:55:19 +0530   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Wed, 13 Jul 2022 10:04:09 +0530   Sat, 09 Jul 2022 18:55:19 +0530   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Wed, 13 Jul 2022 10:04:09 +0530   Sat, 09 Jul 2022 18:55:20 +0530   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:  192.168.59.100
+  Hostname:    minikube
+Capacity:
+  cpu:                2
+  ephemeral-storage:  17784752Ki
+  hugepages-2Mi:      0
+  memory:             2166000Ki
+  pods:               110
+Allocatable:
+  cpu:                2
+  ephemeral-storage:  17784752Ki
+  hugepages-2Mi:      0
+  memory:             2166000Ki
+  pods:               110
+System Info:
+  Machine ID:                 fae6ad2018c84b348d92c6d69a13e91e
+  System UUID:                46191a59-db53-e642-a416-059598a90be6
+  Boot ID:                    2f8f8450-047b-4dfd-ac13-7e93b6b00336
+  Kernel Version:             5.10.57
+  OS Image:                   Buildroot 2021.02.12
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  docker://20.10.16
+  Kubelet Version:            v1.24.1
+  Kube-Proxy Version:         v1.24.1
+PodCIDR:                      10.244.0.0/24
+PodCIDRs:                     10.244.0.0/24
+Non-terminated Pods:          (7 in total)
+  Namespace                   Name                                CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                ------------  ----------  ---------------  -------------  ---
+  kube-system                 coredns-6d4b75cb6d-6gp6r            100m (5%)     0 (0%)      70Mi (3%)        170Mi (8%)     3d15h
+  kube-system                 etcd-minikube                       100m (5%)     0 (0%)      100Mi (4%)       0 (0%)         3d15h
+  kube-system                 kube-apiserver-minikube             250m (12%)    0 (0%)      0 (0%)           0 (0%)         3d15h
+  kube-system                 kube-controller-manager-minikube    200m (10%)    0 (0%)      0 (0%)           0 (0%)         3d15h
+  kube-system                 kube-proxy-qnmsw                    0 (0%)        0 (0%)      0 (0%)           0 (0%)         3d15h
+  kube-system                 kube-scheduler-minikube             100m (5%)     0 (0%)      0 (0%)           0 (0%)         3d15h
+  kube-system                 storage-provisioner                 0 (0%)        0 (0%)      0 (0%)           0 (0%)         3d15h
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests    Limits
+  --------           --------    ------
+  cpu                750m (37%)  0 (0%)
+  memory             170Mi (8%)  170Mi (8%)
+  ephemeral-storage  0 (0%)      0 (0%)
+  hugepages-2Mi      0 (0%)      0 (0%)
+Events:
+  Type    Reason                   Age                    From             Message
+  ----    ------                   ----                   ----             -------
+  Normal  Starting                 8m52s                  kube-proxy       
+  Normal  Starting                 9m42s                  kubelet          Starting kubelet.
+  Normal  NodeHasSufficientMemory  9m42s (x8 over 9m42s)  kubelet          Node minikube status is now: NodeHasSufficientMemory
+  Normal  NodeHasNoDiskPressure    9m42s (x8 over 9m42s)  kubelet          Node minikube status is now: NodeHasNoDiskPressure
+  Normal  NodeHasSufficientPID     9m42s (x7 over 9m42s)  kubelet          Node minikube status is now: NodeHasSufficientPID
+  Normal  NodeAllocatableEnforced  9m42s                  kubelet          Updated Node Allocatable limit across pods
+  Normal  RegisteredNode           9m10s                  node-controller  Node minikube event: Registered Node minikube in Controller
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ vi pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ vi pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete pod pord1.yml
+Error from server (NotFound): pods "pord1.yml" not found
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ vi pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+pod/testpod created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+testpod   1/1     Running   0          33s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -o wide
+NAME      READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+testpod   1/1     Running   0          68s   172.17.0.3   minikube   <none>           <none>
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl describe pod testpod
+Name:         testpod
+Namespace:    default
+Priority:     0
+Node:         minikube/192.168.59.100
+Start Time:   Wed, 13 Jul 2022 10:30:08 +0530
+Labels:       <none>
+Annotations:  <none>
+Status:       Running
+IP:           172.17.0.3
+IPs:
+  IP:  172.17.0.3
+Containers:
+  c00:
+    Container ID:  docker://9bfa6ed674796edf7497cdf6e5f1aa8163b49135bc265cfb5e0669d82466eb34
+    Image:         ubuntu
+    Image ID:      docker-pullable://ubuntu@sha256:b6b83d3c331794420340093eb706a6f152d9c1fa51b262d9bf34594887c2c7ac
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+      while true; do echo Hello-Bhupinder; sleep 5 ; done
+    State:          Running
+      Started:      Wed, 13 Jul 2022 10:30:36 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jbbps (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-jbbps:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  2m4s  default-scheduler  Successfully assigned default/testpod to minikube
+  Normal  Pulling    2m4s  kubelet            Pulling image "ubuntu"
+  Normal  Pulled     96s   kubelet            Successfully pulled image "ubuntu" in 27.23462592s
+  Normal  Created    96s   kubelet            Created container c00
+  Normal  Started    96s   kubelet            Started container c00
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+error: error validating "pord1.yml": error validating data: ValidationError(Pod.metadata): unknown field "annotation" in io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta; if you choose to ignore these errors, turn validation off with --validate=false
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+pod/testpod configured
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl describe pod testpod
+Name:         testpod
+Namespace:    default
+Priority:     0
+Node:         minikube/192.168.59.100
+Start Time:   Wed, 13 Jul 2022 10:30:08 +0530
+Labels:       <none>
+Annotations:  description: This is Nisarg here this is my first file
+Status:       Running
+IP:           172.17.0.3
+IPs:
+  IP:  172.17.0.3
+Containers:
+  c00:
+    Container ID:  docker://9bfa6ed674796edf7497cdf6e5f1aa8163b49135bc265cfb5e0669d82466eb34
+    Image:         ubuntu
+    Image ID:      docker-pullable://ubuntu@sha256:b6b83d3c331794420340093eb706a6f152d9c1fa51b262d9bf34594887c2c7ac
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+      while true; do echo Hello-Bhupinder; sleep 5 ; done
+    State:          Running
+      Started:      Wed, 13 Jul 2022 10:30:36 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jbbps (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-jbbps:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  9m37s  default-scheduler  Successfully assigned default/testpod to minikube
+  Normal  Pulling    9m37s  kubelet            Pulling image "ubuntu"
+  Normal  Pulled     9m9s   kubelet            Successfully pulled image "ubuntu" in 27.23462592s
+  Normal  Created    9m9s   kubelet            Created container c00
+  Normal  Started    9m9s   kubelet            Started container c00
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pod1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+The Pod "Nisarg's container" is invalid: 
+* metadata.name: Invalid value: "Nisarg's container": a lowercase RFC 1123 subdomain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character (e.g. 'example.com', regex used for validation is '[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*')
+* spec.containers[1].name: Duplicate value: "c00"
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+The Pod "nisarg's-container" is invalid: 
+* metadata.name: Invalid value: "nisarg's-container": a lowercase RFC 1123 subdomain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character (e.g. 'example.com', regex used for validation is '[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*')
+* spec.containers[1].name: Duplicate value: "c00"
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+The Pod "nisarg" is invalid: spec.containers[1].name: Duplicate value: "c00"
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+pod/nisarg created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+nisarg    2/2     Running   0          26s
+testpod   1/1     Running   0          27m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl describe pod nisarg
+Name:         nisarg
+Namespace:    default
+Priority:     0
+Node:         minikube/192.168.59.100
+Start Time:   Wed, 13 Jul 2022 10:57:20 +0530
+Labels:       <none>
+Annotations:  description: This is Nisarg here this is my first file
+Status:       Running
+IP:           172.17.0.4
+IPs:
+  IP:  172.17.0.4
+Containers:
+  c03:
+    Container ID:  docker://22f1a7630d816a6a6e71dabfe56d78f70c91f6ecf103ba964d5a6b8c1140a8e5
+    Image:         ubuntu
+    Image ID:      docker-pullable://ubuntu@sha256:b6b83d3c331794420340093eb706a6f152d9c1fa51b262d9bf34594887c2c7ac
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+      while true; do echo Welcome to container ; sleep 5 ; done
+    State:          Running
+      Started:      Wed, 13 Jul 2022 10:57:28 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s4fcg (ro)
+  c04:
+    Container ID:  docker://738116e369a14407a7daefeac58e5667f705aa50acb010f180f2419d96899945
+    Image:         ubuntu
+    Image ID:      docker-pullable://ubuntu@sha256:b6b83d3c331794420340093eb706a6f152d9c1fa51b262d9bf34594887c2c7ac
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+      while true; do echo Welcome back  ; sleep 5 ; done
+    State:          Running
+      Started:      Wed, 13 Jul 2022 10:57:35 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s4fcg (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-s4fcg:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  78s   default-scheduler  Successfully assigned default/nisarg to minikube
+  Normal  Pulling    77s   kubelet            Pulling image "ubuntu"
+  Normal  Pulled     70s   kubelet            Successfully pulled image "ubuntu" in 6.557853043s
+  Normal  Created    70s   kubelet            Created container c03
+  Normal  Started    70s   kubelet            Started container c03
+  Normal  Pulling    70s   kubelet            Pulling image "ubuntu"
+  Normal  Pulled     64s   kubelet            Successfully pulled image "ubuntu" in 6.757504467s
+  Normal  Created    63s   kubelet            Created container c04
+  Normal  Started    63s   kubelet            Started container c04
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl logs -f nisarg -c c03 
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+Welcome to container
+^C
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl logs -f nisarg -c c04
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+Welcome back
+^[[AWelcome back
+^C
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec nisarg -c c03 -- hostname -i
+172.17.0.4
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec nisarg -c c04 -- hostname -i
+172.17.0.4
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec nisarg -it c04 -- /bin/bash
+Defaulted container "c03" out of: c03, c04
+root@nisarg:/# ps
+    PID TTY          TIME CMD
+     93 pts/0    00:00:00 bash
+    105 pts/0    00:00:00 ps
+root@nisarg:/# ps -ef
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 05:27 ?        00:00:00 /bin/bash -c while true; do echo Welcome to container ; sleep 5 ; done
+root          93       0  0 05:34 pts/0    00:00:00 /bin/bash
+root         106       1  0 05:34 ?        00:00:00 sleep 5
+root         107      93  0 05:34 pts/0    00:00:00 ps -ef
+root@nisarg:/# exit
+exit
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+error: error validating "pord1.yml": error validating data: ValidationError(Pod): unknown field "env" in io.k8s.api.core.v1.Pod; if you choose to ignore these errors, turn validation off with --validate=false
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+error: error validating "pord1.yml": error validating data: ValidationError(Pod): unknown field "env" in io.k8s.api.core.v1.Pod; if you choose to ignore these errors, turn validation off with --validate=false
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+error: error validating "pord1.yml": error validating data: ValidationError(Pod.spec.containers[1].env[0]): unknown field "host" in io.k8s.api.core.v1.EnvVar; if you choose to ignore these errors, turn validation off with --validate=false
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pord1.yml
+The Pod "nisarg" is invalid: spec: Forbidden: pod updates may not change fields other than `spec.containers[*].image`, `spec.initContainers[*].image`, `spec.activeDeadlineSeconds`, `spec.tolerations` (only additions to existing tolerations) or `spec.terminationGracePeriodSeconds` (allow it to be set to 1 if it was previously negative)
+  core.PodSpec{
+  	Volumes:        {{Name: "kube-api-access-s4fcg", VolumeSource: {Projected: &{Sources: {{ServiceAccountToken: &{ExpirationSeconds: 3607, Path: "token"}}, {ConfigMap: &{LocalObjectReference: {Name: "kube-root-ca.crt"}, Items: {{Key: "ca.crt", Path: "ca.crt"}}}}, {DownwardAPI: &{Items: {{Path: "namespace", FieldRef: &{APIVersion: "v1", FieldPath: "metadata.namespace"}}}}}}, DefaultMode: &420}}}},
+  	InitContainers: nil,
+  	Containers: []core.Container{
+  		{
+- 			Name:    "c03",
++ 			Name:    "c05",
+  			Image:   "ubuntu",
+  			Command: {"/bin/bash", "-c", "while true; do echo Welcome to container ; sleep 5 ; done"},
+  			... // 4 identical fields
+  			Env:       nil,
+  			Resources: {},
+- 			VolumeMounts: []core.VolumeMount{
+- 				{
+- 					Name:      "kube-api-access-s4fcg",
+- 					ReadOnly:  true,
+- 					MountPath: "/var/run/secrets/kubernetes.io/serviceaccount",
+- 				},
+- 			},
++ 			VolumeMounts:  nil,
+  			VolumeDevices: nil,
+  			LivenessProbe: nil,
+  			... // 10 identical fields
+  		},
+  		{
+- 			Name:    "c04",
++ 			Name:    "c06",
+  			Image:   "ubuntu",
+  			Command: {"/bin/bash", "-c", "while true; do echo Welcome back  ; sleep 5 ; done"},
+  			... // 2 identical fields
+  			Ports:     nil,
+  			EnvFrom:   nil,
+- 			Env:       nil,
++ 			Env:       []core.EnvVar{{Name: "Nisarg1"}},
+  			Resources: {},
+- 			VolumeMounts: []core.VolumeMount{
+- 				{
+- 					Name:      "kube-api-access-s4fcg",
+- 					ReadOnly:  true,
+- 					MountPath: "/var/run/secrets/kubernetes.io/serviceaccount",
+- 				},
+- 			},
++ 			VolumeMounts:  nil,
+  			VolumeDevices: nil,
+  			LivenessProbe: nil,
+  			... // 10 identical fields
+  		},
+  	},
+  	EphemeralContainers: nil,
+  	RestartPolicy:       "Never",
+  	... // 26 identical fields
+  }
+
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+nisarg    2/2     Running   0          17m
+testpod   1/1     Running   0          45m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete nisarg
+error: the server doesn't have a resource type "nisarg"
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete testpod
+error: the server doesn't have a resource type "testpod"
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pod2.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pod2.yml 
+pod/environments created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME           READY   STATUS    RESTARTS   AGE
+environments   1/1     Running   0          11s
+nisarg         2/2     Running   0          20m
+testpod        1/1     Running   0          47m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec enviroments -it -- /bin/bash
+Error from server (NotFound): pods "enviroments" not found
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec environments -it -- /bin/bash
+root@environments:/# ls 
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@environments:/# env
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_SERVICE_PORT=443
+HOSTNAME=environments
+PWD=/
+HOME=/root
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+nisarg=whoareyou
+TERM=xterm
+SHLVL=1
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+KUBERNETES_SERVICE_HOST=10.96.0.1
+KUBERNETES_PORT=tcp://10.96.0.1:443
+KUBERNETES_PORT_443_TCP_PORT=443
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+_=/usr/bin/env
+root@environments:/# exit     
+exit
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pod2.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec environments -it -- /bin/bash
+root@environments:/# env
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_SERVICE_PORT=443
+HOSTNAME=environments
+PWD=/
+HOME=/root
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+nisarg=whoareyou
+TERM=xterm
+SHLVL=1
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+KUBERNETES_SERVICE_HOST=10.96.0.1
+KUBERNETES_PORT=tcp://10.96.0.1:443
+KUBERNETES_PORT_443_TCP_PORT=443
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+_=/usr/bin/env
+root@environments:/# echo $
+$
+root@environments:/# echo $nisarg
+whoareyou
+root@environments:/# exit 
+exit
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME           READY   STATUS    RESTARTS   AGE
+environments   1/1     Running   0          4m56s
+nisarg         2/2     Running   0          24m
+testpod        1/1     Running   0          52m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete -f pord1.yml pod2.yml
+error: when paths, URLs, or stdin is provided as input, you may not specify resource arguments as well
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete -f pord1.yml 
+pod "nisarg" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME           READY   STATUS    RESTARTS   AGE
+environments   1/1     Running   0          9m9s
+testpod        1/1     Running   0          56m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pod3.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pod3.yml
+pod/testpod4 created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME           READY   STATUS              RESTARTS   AGE
+environments   1/1     Running             0          10m
+testpod        1/1     Running             0          57m
+testpod4       0/1     ContainerCreating   0          12s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -o wide
+NAME           READY   STATUS              RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+environments   1/1     Running             0          10m   172.17.0.5   minikube   <none>           <none>
+testpod        1/1     Running             0          57m   172.17.0.3   minikube   <none>           <none>
+testpod4       0/1     ContainerCreating   0          28s   <none>       minikube   <none>           <none>
+
+
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ ls
+minikube  pod2.yml  pod3.yml  pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete -f pod3.yml
+pod "testpod4" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ ls
+minikube  pod2.yml  pod3.yml  pord1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+testpod   1/1     Running   0          132m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete -f pord1.yml
+Error from server (NotFound): error when deleting "pord1.yml": pods "nisarg" not found
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete -f pod2.yml
+Error from server (NotFound): error when deleting "pod2.yml": pods "environments" not found
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pod1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pod1.yml
+pod/ahemedabad created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME         READY   STATUS              RESTARTS   AGE
+ahemedabad   0/1     ContainerCreating   0          7s
+testpod      1/1     Running             0          135m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME         READY   STATUS    RESTARTS   AGE
+ahemedabad   1/1     Running   0          10s
+testpod      1/1     Running   0          135m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods o -wide
+error: unknown shorthand flag: 'i' in -ide
+See 'kubectl get --help' for usage.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -o wide
+NAME         READY   STATUS    RESTARTS   AGE    IP           NODE       NOMINATED NODE   READINESS GATES
+ahemedabad   1/1     Running   0          40s    172.17.0.4   minikube   <none>           <none>
+testpod      1/1     Running   0          135m   172.17.0.3   minikube   <none>           <none>
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods --show-lables
+error: unknown flag: --show-lables
+See 'kubectl get --help' for usage.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods --show-labels
+NAME         READY   STATUS    RESTARTS   AGE    LABELS
+ahemedabad   1/1     Running   0          89s    class=pods,env=development
+testpod      1/1     Running   0          136m   <none>
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl label pods ahemedabad Name=nisarg
+pod/ahemedabad labeled
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods --show-labels
+NAME         READY   STATUS    RESTARTS   AGE     LABELS
+ahemedabad   1/1     Running   0          4m18s   Name=nisarg,class=pods,env=development
+testpod      1/1     Running   0          139m    <none>
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -l Name=nisarg
+NAME         READY   STATUS    RESTARTS   AGE
+ahemedabad   1/1     Running   0          5m57s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -l Name!=nisarg
+NAME      READY   STATUS    RESTARTS   AGE
+testpod   1/1     Running   0          142m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete pods -l Name!=nisarg
+pod "testpod" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME         READY   STATUS    RESTARTS   AGE
+ahemedabad   1/1     Running   0          8m53s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -l 'env in(Name,xyz)'
+No resources found in default namespace.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -l 'env in(nisarg)'
+No resources found in default namespace.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -l 'env in(nisarg,development)'
+NAME         READY   STATUS    RESTARTS   AGE
+ahemedabad   1/1     Running   0          11m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -l 'env notin(nisarg,development)'
+No resources found in default namespace.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -l Name=nisarg,class=pods
+NAME         READY   STATUS    RESTARTS   AGE
+ahemedabad   1/1     Running   0          13m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano replicapod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f replicapod.yml 
+The ReplicationController "nisarg" is invalid: spec.template.metadata.labels: Invalid value: map[string]string{"myname":"Nisarg1"}: `selector` does not match template `labels`
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano replicapod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano replicapod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano replicapod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f replicapod.yml 
+The ReplicationController "nisarg" is invalid: spec.template.metadata.labels: Invalid value: map[string]string{"myname":"nisarg1"}: `selector` does not match template `labels`
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano replicapod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f replicapod.yml 
+replicationcontroller/nisarg created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rc
+NAME     DESIRED   CURRENT   READY   AGE
+nisarg   2         2         2       73s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl describe rc nisarg
+Name:         nisarg
+Namespace:    default
+Selector:     myname=nisarg
+Labels:       myname=nisarg
+Annotations:  <none>
+Replicas:     2 current / 2 desired
+Pods Status:  2 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  myname=nisarg
+  Containers:
+   c00:
+    Image:      ubuntu
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      /bin/bash
+      -c
+      while true; do echo Nisarg here ; sleep 5 ; done
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age   From                    Message
+  ----    ------            ----  ----                    -------
+  Normal  SuccessfulCreate  102s  replication-controller  Created pod: nisarg-zcjmr
+  Normal  SuccessfulCreate  102s  replication-controller  Created pod: nisarg-c4lbk
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pod
+NAME           READY   STATUS    RESTARTS   AGE
+ahemedabad     1/1     Running   0          49m
+nisarg-c4lbk   1/1     Running   0          2m29s
+nisarg-zcjmr   1/1     Running   0          2m29s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete pod nisarg-c4lbk
+pod "nisarg-c4lbk" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pod
+NAME           READY   STATUS    RESTARTS   AGE
+ahemedabad     1/1     Running   0          50m
+nisarg-rwsmn   1/1     Running   0          42s
+nisarg-zcjmr   1/1     Running   0          3m31s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods labels
+Error from server (NotFound): pods "labels" not found
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods --show-labels
+NAME           READY   STATUS    RESTARTS   AGE     LABELS
+ahemedabad     1/1     Running   0          51m     Name=nisarg,class=pods,env=development
+nisarg-rwsmn   1/1     Running   0          2m18s   myname=nisarg
+nisarg-zcjmr   1/1     Running   0          5m7s    myname=nisarg
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl scale --replicas=6 rc -1 myname=nisarg
+error: unknown shorthand flag: '1' in -1
+See 'kubectl scale --help' for usage.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl scale --replicas=6 rc -l myname=nisarg
+replicationcontroller/nisarg  
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pod
+NAME           READY   STATUS              RESTARTS   AGE
+ahemedabad     1/1     Running             0          53m
+nisarg-ftgl5   1/1     Running             0          10s
+nisarg-gx8h5   0/1     ContainerCreating   0          10s
+nisarg-jhnt4   0/1     ContainerCreating   0          10s
+nisarg-rwsmn   1/1     Running             0          3m49s
+nisarg-tdptj   0/1     ContainerCreating   0          10s
+nisarg-zcjmr   1/1     Running             0          6m38s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pod
+NAME           READY   STATUS              RESTARTS   AGE
+ahemedabad     1/1     Running             0          53m
+nisarg-ftgl5   1/1     Running             0          19s
+nisarg-gx8h5   1/1     Running             0          19s
+nisarg-jhnt4   0/1     ContainerCreating   0          19s
+nisarg-rwsmn   1/1     Running             0          3m58s
+nisarg-tdptj   0/1     ContainerCreating   0          19s
+nisarg-zcjmr   1/1     Running             0          6m47s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl scale replicas=3 rc -l myname=nisarg
+error: required flag(s) "replicas" not set
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pod
+NAME           READY   STATUS    RESTARTS   AGE
+ahemedabad     1/1     Running   0          54m
+nisarg-ftgl5   1/1     Running   0          46s
+nisarg-gx8h5   1/1     Running   0          46s
+nisarg-jhnt4   1/1     Running   0          46s
+nisarg-rwsmn   1/1     Running   0          4m25s
+nisarg-tdptj   1/1     Running   0          46s
+nisarg-zcjmr   1/1     Running   0          7m14s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pod
+NAME           READY   STATUS    RESTARTS   AGE
+ahemedabad     1/1     Running   0          54m
+nisarg-ftgl5   1/1     Running   0          53s
+nisarg-gx8h5   1/1     Running   0          53s
+nisarg-jhnt4   1/1     Running   0          53s
+nisarg-rwsmn   1/1     Running   0          4m32s
+nisarg-tdptj   1/1     Running   0          53s
+nisarg-zcjmr   1/1     Running   0          7m21s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods --show-labels
+NAME           READY   STATUS    RESTARTS   AGE     LABELS
+ahemedabad     1/1     Running   0          54m     Name=nisarg,class=pods,env=development
+nisarg-ftgl5   1/1     Running   0          69s     myname=nisarg
+nisarg-gx8h5   1/1     Running   0          69s     myname=nisarg
+nisarg-jhnt4   1/1     Running   0          69s     myname=nisarg
+nisarg-rwsmn   1/1     Running   0          4m48s   myname=nisarg
+nisarg-tdptj   1/1     Running   0          69s     myname=nisarg
+nisarg-zcjmr   1/1     Running   0          7m37s   myname=nisarg
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ ls
+minikube  pod1.yml  pod2.yml  pod3.yml  pord1.yml  replicapod.yml
+nano deployment.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f deployment.yml 
+deployment.apps/mydeployments created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+mydeployments   0/2     2            0           12s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+mydeployments   0/2     2            0           16s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano deployment.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+mydeployments   0/2     2            0           45s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+
+
+
+
+
+
+
+
+
+
+
+
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rs
+NAME                       DESIRED   CURRENT   READY   AGE
+mydeployments-679c4b559d   2         2         1       64s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+ahemedabad                       1/1     Running   0          4h39m
+mydeployments-679c4b559d-kjwkf   1/1     Running   0          73s
+mydeployments-679c4b559d-qltgr   1/1     Running   0          73s
+nisarg-c67sn                     1/1     Running   0          3h37m
+nisarg-v2h47                     1/1     Running   0          3h37m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+mydeployments   2/2     2            2           2m9s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl scale --replicas=1 deployment mydeployment
+Error from server (NotFound): deployments.apps "mydeployment" not found
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl scale --replicas=1 deploy mydeployment
+Error from server (NotFound): deployments.apps "mydeployment" not found
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl scale --replicas=1 deployment mydeployments
+deployment.apps/mydeployments scaled
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+mydeployments   1/1     1            1           4m30s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rs
+NAME                       DESIRED   CURRENT   READY   AGE
+mydeployments-679c4b559d   1         1         1       4m36s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+ahemedabad                       1/1     Running   0          4h42m
+mydeployments-679c4b559d-kjwkf   1/1     Running   0          4m49s
+nisarg-c67sn                     1/1     Running   0          3h40m
+nisarg-v2h47                     1/1     Running   0          3h40m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano deployment.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f deployment.yml 
+deployment.apps/mydeployments configured
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS              RESTARTS   AGE
+ahemedabad                       1/1     Running             0          4h52m
+mydeployments-5844f4c679-kr2cl   0/1     ContainerCreating   0          8s
+mydeployments-5844f4c679-pblcl   0/1     ContainerCreating   0          8s
+mydeployments-679c4b559d-gx67d   0/1     ContainerCreating   0          8s
+mydeployments-679c4b559d-k2v6k   0/1     ContainerCreating   0          8s
+mydeployments-679c4b559d-kjwkf   1/1     Running             0          14m
+mydeployments-679c4b559d-wbds6   0/1     Terminating         0          8s
+nisarg-c67sn                     1/1     Running             0          3h50m
+nisarg-v2h47                     1/1     Running             0          3h50m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl rollout status deployment mydeployments
+Waiting for deployment "mydeployments" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "mydeployments" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "mydeployments" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "mydeployments" rollout to finish: 3 of 4 updated replicas are available...
+deployment "mydeployments" successfully rolled out
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl rollout history deployment mydeployments
+deployment.apps/mydeployments 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl rollout undo deploy/mydeployments
+deployment.apps/mydeployments rolled back
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS              RESTARTS   AGE
+ahemedabad                       1/1     Running             0          5h13m
+mydeployments-5844f4c679-hc48r   1/1     Running             0          20m
+mydeployments-5844f4c679-kr2cl   1/1     Terminating         0          21m
+mydeployments-5844f4c679-pblcl   1/1     Terminating         0          21m
+mydeployments-5844f4c679-z6hzp   1/1     Running             0          20m
+mydeployments-679c4b559d-djqcr   1/1     Running             0          9s
+mydeployments-679c4b559d-gvhbp   0/1     ContainerCreating   0          9s
+mydeployments-679c4b559d-jq7zt   0/1     ContainerCreating   0          2s
+nisarg-c67sn                     1/1     Running             0          4h11m
+nisarg-v2h47                     1/1     Running             0          4h11m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS        RESTARTS   AGE
+ahemedabad                       1/1     Running       0          5h14m
+mydeployments-5844f4c679-hc48r   1/1     Terminating   0          20m
+mydeployments-679c4b559d-6977j   1/1     Running       0          32s
+mydeployments-679c4b559d-djqcr   1/1     Running       0          47s
+mydeployments-679c4b559d-gvhbp   1/1     Running       0          47s
+mydeployments-679c4b559d-jq7zt   1/1     Running       0          40s
+nisarg-c67sn                     1/1     Running       0          4h11m
+nisarg-v2h47                     1/1     Running       0          4h11m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+ahemedabad                       1/1     Running   0          5h14m
+mydeployments-679c4b559d-6977j   1/1     Running   0          81s
+mydeployments-679c4b559d-djqcr   1/1     Running   0          96s
+mydeployments-679c4b559d-gvhbp   1/1     Running   0          96s
+mydeployments-679c4b559d-jq7zt   1/1     Running   0          89s
+nisarg-c67sn                     1/1     Running   0          4h12m
+nisarg-v2h47                     1/1     Running   0          4h12m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano network.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano network.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f network.yml 
+pod/network created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS              RESTARTS   AGE
+ahemedabad                       1/1     Running             0          5h33m
+mydeployments-679c4b559d-6977j   1/1     Running             0          20m
+mydeployments-679c4b559d-djqcr   1/1     Running             0          20m
+mydeployments-679c4b559d-gvhbp   1/1     Running             0          20m
+mydeployments-679c4b559d-jq7zt   1/1     Running             0          20m
+network                          0/2     ContainerCreating   0          7s
+nisarg-c67sn                     1/1     Running             0          4h31m
+nisarg-v2h47                     1/1     Running             0          4h31m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+ahemedabad                       1/1     Running   0          5h34m
+mydeployments-679c4b559d-6977j   1/1     Running   0          20m
+mydeployments-679c4b559d-djqcr   1/1     Running   0          21m
+mydeployments-679c4b559d-gvhbp   1/1     Running   0          21m
+mydeployments-679c4b559d-jq7zt   1/1     Running   0          20m
+network                          2/2     Running   0          40s
+nisarg-c67sn                     1/1     Running   0          4h32m
+nisarg-v2h47                     1/1     Running   0          4h32m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec network -it -c c00 -- /bin/bash 
+root@network:/# ls 
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@network:/# curl localhost:80
+bash: curl: command not found
+root@network:/# apt insall curl
+E: Invalid operation insall
+root@network:/# apt install curl
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package curl
+root@network:/# apt update && apt-get install curl
+Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB] 
+Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]                    
+Get:3 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [4648 B]
+Get:4 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [107 kB]
+Get:5 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [267 kB]
+Get:6 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [257 kB]
+Get:7 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [114 kB]
+Get:8 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [99.8 kB]
+Get:9 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+Get:10 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+Get:12 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [301 kB]                                      
+Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [466 kB]                                            
+Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [204 kB]                                        
+Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [7804 B]                                      
+Get:17 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [5798 B]                                      
+Fetched 21.9 MB in 11s (1949 kB/s)                                                                                            
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+9 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  ca-certificates libbrotli1 libcurl4 libldap-2.5-0 libldap-common libnghttp2-14 libpsl5 librtmp1 libsasl2-2 libsasl2-modules
+  libsasl2-modules-db libssh-4 openssl publicsuffix
+Suggested packages:
+  libsasl2-modules-gssapi-mit | libsasl2-modules-gssapi-heimdal libsasl2-modules-ldap libsasl2-modules-otp
+  libsasl2-modules-sql
+The following NEW packages will be installed:
+  ca-certificates curl libbrotli1 libcurl4 libldap-2.5-0 libldap-common libnghttp2-14 libpsl5 librtmp1 libsasl2-2
+  libsasl2-modules libsasl2-modules-db libssh-4 openssl publicsuffix
+0 upgraded, 15 newly installed, 0 to remove and 9 not upgraded.
+Need to get 2970 kB of archives.
+After this operation, 7063 kB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 openssl amd64 3.0.2-0ubuntu1.6 [1184 kB]
+Get:2 http://archive.ubuntu.com/ubuntu jammy/main amd64 ca-certificates all 20211016 [148 kB]
+Get:3 http://archive.ubuntu.com/ubuntu jammy/main amd64 libnghttp2-14 amd64 1.43.0-1build3 [76.3 kB]
+Get:4 http://archive.ubuntu.com/ubuntu jammy/main amd64 libpsl5 amd64 0.21.0-1.2build2 [58.4 kB]
+Get:5 http://archive.ubuntu.com/ubuntu jammy/main amd64 publicsuffix all 20211207.1025-1 [129 kB]
+Get:6 http://archive.ubuntu.com/ubuntu jammy/main amd64 libbrotli1 amd64 1.0.9-2build6 [315 kB]                               
+Get:7 http://archive.ubuntu.com/ubuntu jammy/main amd64 libsasl2-modules-db amd64 2.1.27+dfsg2-3ubuntu1 [20.8 kB]             
+Get:8 http://archive.ubuntu.com/ubuntu jammy/main amd64 libsasl2-2 amd64 2.1.27+dfsg2-3ubuntu1 [53.9 kB]                      
+Get:9 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libldap-2.5-0 amd64 2.5.12+dfsg-0ubuntu0.22.04.1 [184 kB]     
+Get:10 http://archive.ubuntu.com/ubuntu jammy/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build4 [58.2 kB]           
+Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 libssh-4 amd64 0.9.6-2build1 [184 kB]                                
+Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl4 amd64 7.81.0-1ubuntu1.3 [290 kB]                    
+Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 curl amd64 7.81.0-1ubuntu1.3 [194 kB]                        
+Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libldap-common all 2.5.12+dfsg-0ubuntu0.22.04.1 [16.4 kB]    
+Get:15 http://archive.ubuntu.com/ubuntu jammy/main amd64 libsasl2-modules amd64 2.1.27+dfsg2-3ubuntu1 [57.5 kB]               
+Fetched 2970 kB in 9s (339 kB/s)                                                                                              
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package openssl.
+(Reading database ... 4395 files and directories currently installed.)
+Preparing to unpack .../00-openssl_3.0.2-0ubuntu1.6_amd64.deb ...
+Unpacking openssl (3.0.2-0ubuntu1.6) ...
+Selecting previously unselected package ca-certificates.
+Preparing to unpack .../01-ca-certificates_20211016_all.deb ...
+Unpacking ca-certificates (20211016) ...
+Selecting previously unselected package libnghttp2-14:amd64.
+Preparing to unpack .../02-libnghttp2-14_1.43.0-1build3_amd64.deb ...
+Unpacking libnghttp2-14:amd64 (1.43.0-1build3) ...
+Selecting previously unselected package libpsl5:amd64.
+Preparing to unpack .../03-libpsl5_0.21.0-1.2build2_amd64.deb ...
+Unpacking libpsl5:amd64 (0.21.0-1.2build2) ...
+Selecting previously unselected package publicsuffix.
+Preparing to unpack .../04-publicsuffix_20211207.1025-1_all.deb ...
+Unpacking publicsuffix (20211207.1025-1) ...
+Selecting previously unselected package libbrotli1:amd64.
+Preparing to unpack .../05-libbrotli1_1.0.9-2build6_amd64.deb ...
+Unpacking libbrotli1:amd64 (1.0.9-2build6) ...
+Selecting previously unselected package libsasl2-modules-db:amd64.
+Preparing to unpack .../06-libsasl2-modules-db_2.1.27+dfsg2-3ubuntu1_amd64.deb ...
+Unpacking libsasl2-modules-db:amd64 (2.1.27+dfsg2-3ubuntu1) ...
+Selecting previously unselected package libsasl2-2:amd64.
+Preparing to unpack .../07-libsasl2-2_2.1.27+dfsg2-3ubuntu1_amd64.deb ...
+Unpacking libsasl2-2:amd64 (2.1.27+dfsg2-3ubuntu1) ...
+Selecting previously unselected package libldap-2.5-0:amd64.
+Preparing to unpack .../08-libldap-2.5-0_2.5.12+dfsg-0ubuntu0.22.04.1_amd64.deb ...
+Unpacking libldap-2.5-0:amd64 (2.5.12+dfsg-0ubuntu0.22.04.1) ...
+Selecting previously unselected package librtmp1:amd64.
+Preparing to unpack .../09-librtmp1_2.4+20151223.gitfa8646d.1-2build4_amd64.deb ...
+Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+Selecting previously unselected package libssh-4:amd64.
+Preparing to unpack .../10-libssh-4_0.9.6-2build1_amd64.deb ...
+Unpacking libssh-4:amd64 (0.9.6-2build1) ...
+Selecting previously unselected package libcurl4:amd64.
+Preparing to unpack .../11-libcurl4_7.81.0-1ubuntu1.3_amd64.deb ...
+Unpacking libcurl4:amd64 (7.81.0-1ubuntu1.3) ...
+Selecting previously unselected package curl.
+Preparing to unpack .../12-curl_7.81.0-1ubuntu1.3_amd64.deb ...
+Unpacking curl (7.81.0-1ubuntu1.3) ...
+Selecting previously unselected package libldap-common.
+Preparing to unpack .../13-libldap-common_2.5.12+dfsg-0ubuntu0.22.04.1_all.deb ...
+Unpacking libldap-common (2.5.12+dfsg-0ubuntu0.22.04.1) ...
+Selecting previously unselected package libsasl2-modules:amd64.
+Preparing to unpack .../14-libsasl2-modules_2.1.27+dfsg2-3ubuntu1_amd64.deb ...
+Unpacking libsasl2-modules:amd64 (2.1.27+dfsg2-3ubuntu1) ...
+Setting up libpsl5:amd64 (0.21.0-1.2build2) ...
+Setting up libbrotli1:amd64 (1.0.9-2build6) ...
+Setting up libsasl2-modules:amd64 (2.1.27+dfsg2-3ubuntu1) ...
+Setting up libnghttp2-14:amd64 (1.43.0-1build3) ...
+Setting up libldap-common (2.5.12+dfsg-0ubuntu0.22.04.1) ...
+Setting up libsasl2-modules-db:amd64 (2.1.27+dfsg2-3ubuntu1) ...
+Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+Setting up libsasl2-2:amd64 (2.1.27+dfsg2-3ubuntu1) ...
+Setting up libssh-4:amd64 (0.9.6-2build1) ...
+Setting up openssl (3.0.2-0ubuntu1.6) ...
+Setting up publicsuffix (20211207.1025-1) ...
+Setting up libldap-2.5-0:amd64 (2.5.12+dfsg-0ubuntu0.22.04.1) ...
+Setting up ca-certificates (20211016) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 78.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.34.0 /usr/local/share/perl/5.34.0 /usr/lib/x86_64-linux-gnu/perl5/5.34 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.34 /usr/share/perl/5.34 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+debconf: falling back to frontend: Teletype
+Updating certificates in /etc/ssl/certs...
+127 added, 0 removed; done.
+Setting up libcurl4:amd64 (7.81.0-1ubuntu1.3) ...
+Setting up curl (7.81.0-1ubuntu1.3) ...
+Processing triggers for libc-bin (2.35-0ubuntu3) ...
+Processing triggers for ca-certificates (20211016) ...
+Updating certificates in /etc/ssl/certs...
+0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+root@network:/# curl localhost:80 
+<html><body><h1>It works!</h1></body></html>
+root@network:/# exit
+exit
+ rg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano firstpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f firstpod.yml 
+pod/firstpod created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f secondpod.yml 
+pod/secondpod created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -o wide
+NAME           READY   STATUS    RESTARTS   AGE     IP           NODE       NOMINATED NODE   READINESS GATES
+firstpod       1/1     Running   0          59s     172.17.0.4   minikube   <none>           <none>
+nisarg-c67sn   1/1     Running   0          4h48m   172.17.0.5   minikube   <none>           <none>
+nisarg-v2h47   1/1     Running   0          4h48m   172.17.0.3   minikube   <none>           <none>
+secondpod      1/1     Running   0          50s     172.17.0.6   minikube   <none>           <none>
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ curl 172.17.0.4:80
+curl: (7) Failed to connect to 172.17.0.4 port 80 after 3060 ms: No route to host
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano firstpod.yml 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f firstpod.yml 
+pod/firstpod configured
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f secondpod.yml 
+pod/secondpod configured
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -o wide
+NAME           READY   STATUS    RESTARTS   AGE     IP           NODE       NOMINATED NODE   READINESS GATES
+firstpod       1/1     Running   0          2m44s   172.17.0.4   minikube   <none>           <none>
+nisarg-c67sn   1/1     Running   0          4h50m   172.17.0.5   minikube   <none>           <none>
+nisarg-v2h47   1/1     Running   0          4h50m   172.17.0.3   minikube   <none>           <none>
+secondpod      1/1     Running   0          2m35s   172.17.0.6   minikube   <none>           <none>
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ ^C
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ curl 172.17.0.4
+curl: (7) Failed to connect to 172.17.0.4 port 80 after 3080 ms: No route to host
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ curl 172.17.0.4:80
+curl: (7) Failed to connect to 172.17.0.4 port 80 after 3065 ms: No route to host
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ curl 172.17.0.6:80
+curl: (7) Failed to connect to 172.17.0.6 port 80 after 3057 ms: No route to host
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f secondpod.yml 
+error: error parsing secondpod.yml: error converting YAML to JSON: yaml: line 9: did not find expected key
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f secondpod.yml 
+error: error parsing secondpod.yml: error converting YAML to JSON: yaml: line 10: mapping values are not allowed in this context
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f secondpod.yml 
+error: error parsing secondpod.yml: error converting YAML to JSON: yaml: line 8: did not find expected key
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f secondpod.yml 
+error: error parsing secondpod.yml: error converting YAML to JSON: yaml: line 8: did not find expected key
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f secondpod.yml 
+error: error parsing secondpod.yml: error converting YAML to JSON: yaml: line 9: mapping values are not allowed in this context
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f secondpod.yml 
+error: error parsing secondpod.yml: error converting YAML to JSON: yaml: line 8: did not find expected key
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ 
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ service
+Usage: service < option > | --status-all | [ service_name [ command | --full-restart ] ]
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano service1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f service1.yml 
+service/demoservice created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME           READY   STATUS    RESTARTS      AGE
+firstpod       1/1     Running   1 (40m ago)   42m
+nisarg-c67sn   1/1     Running   0             5h30m
+nisarg-v2h47   1/1     Running   0             5h30m
+secondpod      1/1     Running   1 (39m ago)   42m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano service1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano deployment1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME           READY   STATUS    RESTARTS      AGE
+firstpod       1/1     Running   1 (41m ago)   44m
+nisarg-c67sn   1/1     Running   0             5h32m
+nisarg-v2h47   1/1     Running   0             5h32m
+secondpod      1/1     Running   1 (41m ago)   44m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f deployment
+error: the path "deployment" does not exist
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f deployment1.yml 
+deployment.apps/mydeployments created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS              RESTARTS      AGE
+firstpod                         1/1     Running             1 (42m ago)   45m
+mydeployments-5b7f55c5cc-29n9m   0/1     ContainerCreating   0             4s
+nisarg-c67sn                     1/1     Running             0             5h32m
+nisarg-v2h47                     1/1     Running             0             5h32m
+secondpod                        1/1     Running             1 (41m ago)   44m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods -o wide
+NAME                             READY   STATUS    RESTARTS      AGE     IP           NODE       NOMINATED NODE   READINESS GATES
+firstpod                         1/1     Running   1 (42m ago)   45m     172.17.0.4   minikube   <none>           <none>
+mydeployments-5b7f55c5cc-29n9m   1/1     Running   0             25s     172.17.0.7   minikube   <none>           <none>
+nisarg-c67sn                     1/1     Running   0             5h33m   172.17.0.5   minikube   <none>           <none>
+nisarg-v2h47                     1/1     Running   0             5h33m   172.17.0.3   minikube   <none>           <none>
+secondpod                        1/1     Running   1 (42m ago)   45m     172.17.0.6   minikube   <none>           <none>
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ curl 172.17.0.7:80
+curl: (7) Failed to connect to 172.17.0.7 port 80 after 3064 ms: No route to host
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get svc
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+demoservice   ClusterIP   10.103.213.60   <none>        80/TCP    3m32s
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP   4d
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ curl 10.103.213.60
+ ^C
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS      AGE
+firstpod                         1/1     Running   1 (15h ago)   15h
+mydeployments-5b7f55c5cc-29n9m   1/1     Running   0             14h
+nisarg-c67sn                     1/1     Running   0             20h
+nisarg-v2h47                     1/1     Running   0             20h
+secondpod                        1/1     Running   1 (15h ago)   15h
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete -f  firstpod
+error: the path "firstpod" does not exist
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl describe firstpod
+error: the server doesn't have a resource type "firstpod"
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rs
+NAME                       DESIRED   CURRENT   READY   AGE
+mydeployments-5b7f55c5cc   1         1         1       14h
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete -f mydeployments-5b7f55c5cc
+error: the path "mydeployments-5b7f55c5cc" does not exist
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano deployment1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano service1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f deployment.yml 
+deployment.apps/mydeployments configured
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f service1.yml 
+service/demoservice configured
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get svc
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+demoservice   NodePort    10.103.213.60   <none>        80:31891/TCP   15h
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP        4d15h
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl describe svc demoservice
+Name:                     demoservice
+Namespace:                default
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 name=deployment
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.103.213.60
+IPs:                      10.103.213.60
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+NodePort:                 <unset>  31891/TCP
+Endpoints:                172.17.0.12:80,172.17.0.8:80,172.17.0.9:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete pods firstpod
+pod "firstpod" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS      AGE
+mydeployments-5844f4c679-2m99t   1/1     Running   0             14m
+mydeployments-5844f4c679-49k27   1/1     Running   0             13m
+mydeployments-5844f4c679-7kn2c   1/1     Running   0             14m
+mydeployments-5844f4c679-j7jrr   1/1     Running   0             14m
+nisarg-c67sn                     1/1     Running   0             20h
+nisarg-v2h47                     1/1     Running   0             20h
+secondpod                        1/1     Running   1 (16h ago)   16h
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete pods nisarg-c67sn
+pod "nisarg-c67sn" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete pods nisarg-v2h47
+pod "nisarg-v2h47" deleted
+^[[Adeveloper@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete pods secondpod
+pod "secondpod" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+mydeployments-5844f4c679-2m99t   1/1     Running   0          16m
+mydeployments-5844f4c679-49k27   1/1     Running   0          15m
+mydeployments-5844f4c679-7kn2c   1/1     Running   0          16m
+mydeployments-5844f4c679-j7jrr   1/1     Running   0          16m
+nisarg-nrxs2                     1/1     Running   0          72s
+nisarg-xddwj                     1/1     Running   0          111s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rs
+NAME                       DESIRED   CURRENT   READY   AGE
+mydeployments-5844f4c679   4         4         4       16m
+mydeployments-5b7f55c5cc   0         0         0       15h
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ ls
+deployment1.yml  firstpod.yml  network.yml  pod2.yml  pord1.yml       secondpod.yml
+deployment.yml   minikube      pod1.yml     pod3.yml  replicapod.yml  service1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ rmdeployment1.yml  firstpod.yml  network.yml  pod2.yml  pord1.yml       secondpod.yml
+rmdeployment1.yml: command not found
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ rm deployment1.yml  firstpod.yml  network.yml  pod2.yml  pord1.yml       secondpod.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ rm pod1.yml     pod3.yml  replicapod.yml  service1.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ rm deployment.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ ls
+minikube
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+mydeployments-5844f4c679-2m99t   1/1     Running   0          19m
+mydeployments-5844f4c679-49k27   1/1     Running   0          19m
+mydeployments-5844f4c679-7kn2c   1/1     Running   0          19m
+mydeployments-5844f4c679-j7jrr   1/1     Running   0          19m
+nisarg-nrxs2                     1/1     Running   0          4m21s
+nisarg-xddwj                     1/1     Running   0          5m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rs
+NAME                       DESIRED   CURRENT   READY   AGE
+mydeployments-5844f4c679   4         4         4       19m
+mydeployments-5b7f55c5cc   0         0         0       15h
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete rs mydeployments-5844f4c679
+replicaset.apps "mydeployments-5844f4c679" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete rs mydeployments-5b7f55c5cc
+replicaset.apps "mydeployments-5b7f55c5cc" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS              RESTARTS   AGE
+mydeployments-5844f4c679-2m99t   1/1     Terminating         0          20m
+mydeployments-5844f4c679-2xqwl   0/1     ContainerCreating   0          19s
+mydeployments-5844f4c679-49k27   1/1     Terminating         0          19m
+mydeployments-5844f4c679-7kn2c   1/1     Terminating         0          20m
+mydeployments-5844f4c679-85rgj   1/1     Running             0          19s
+mydeployments-5844f4c679-dpbsb   0/1     ContainerCreating   0          19s
+mydeployments-5844f4c679-j7jrr   1/1     Terminating         0          20m
+mydeployments-5844f4c679-qhz59   1/1     Running             0          19s
+nisarg-nrxs2                     1/1     Running             0          5m4s
+nisarg-xddwj                     1/1     Running             0          5m43s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rs
+NAME                       DESIRED   CURRENT   READY   AGE
+mydeployments-5844f4c679   4         4         4       50s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete rs mydeployments-5844f4c679
+replicaset.apps "mydeployments-5844f4c679" deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rs
+NAME                       DESIRED   CURRENT   READY   AGE
+mydeployments-5844f4c679   4         4         0       3s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl scale --replicas=o mydeployments-5844f4c679
+error: invalid argument "o" for "--replicas" flag: strconv.ParseInt: parsing "o": invalid syntax
+See 'kubectl scale --help' for usage.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl scale --replicas=0 mydeployments-5844f4c679
+error: the server doesn't have a resource type "mydeployments-5844f4c679"
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+mydeployments-5844f4c679-25gmw   1/1     Running   0          3h2m
+mydeployments-5844f4c679-cmq56   1/1     Running   0          3h2m
+mydeployments-5844f4c679-jlv4s   1/1     Running   0          3h2m
+mydeployments-5844f4c679-xb2hr   1/1     Running   0          3h2m
+nisarg-nrxs2                     1/1     Running   0          3h8m
+nisarg-xddwj                     1/1     Running   0          3h9m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ ls
+minikube
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl delete pods nisarg-nrxs2 --grace-period=0 --force
+warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "nisarg-nrxs2" force deleted
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS              RESTARTS   AGE
+mydeployments-5844f4c679-25gmw   1/1     Running             0          3h4m
+mydeployments-5844f4c679-cmq56   1/1     Running             0          3h4m
+mydeployments-5844f4c679-jlv4s   1/1     Running             0          3h4m
+mydeployments-5844f4c679-xb2hr   1/1     Running             0          3h4m
+nisarg-vc5vt                     0/1     ContainerCreating   0          8s
+nisarg-xddwj                     1/1     Running             0          3h11m
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pvc.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano pvc.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f pvc.yml 
+persistentvolumeclaim/myebsvolclaim created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pvc
+NAME            STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+myebsvolclaim   Bound    pvc-506fa5d6-e838-4bd4-986f-5e301f8e3ba6   1Gi        RWO            standard       9s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ nano deploy.yml
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl apply -f deploy.yml 
+deployment.apps/pvdeploy created
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+mydeployments   4/4     4            4           18h
+pvdeploy        1/1     1            1           13s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get rs
+NAME                       DESIRED   CURRENT   READY   AGE
+mydeployments-5844f4c679   4         4         4       3h10m
+pvdeploy-7bfd8c7c9         1         1         1       27s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pds
+^[[A^[[B^[[B^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^C
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+mydeployments-5844f4c679-25gmw   1/1     Running   0          3h11m
+mydeployments-5844f4c679-cmq56   1/1     Running   0          3h11m
+mydeployments-5844f4c679-jlv4s   1/1     Running   0          3h11m
+mydeployments-5844f4c679-xb2hr   1/1     Running   0          3h11m
+nisarg-vc5vt                     1/1     Running   0          6m48s
+nisarg-xddwj                     1/1     Running   0          3h17m
+pvdeploy-7bfd8c7c9-4g7p8         1/1     Running   0          66s
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec pvdeploy-7bfd8c7c9-4g7p8 -it --/bin/bash
+error: unknown flag: --/bin/bash
+See 'kubectl exec --help' for usage.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec pvdeploy-7bfd8c7c9-4g7p8 -it --/bin/bash/
+error: unknown flag: --/bin/bash/
+See 'kubectl exec --help' for usage.
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec pvdeploy-7bfd8c7c9-4g7p8 -it -- /bin/bash/
+OCI runtime exec failed: exec failed: unable to start container process: exec: "/bin/bash/": stat /bin/bash/: not a directory: unknown: Are you trying to mount a directory onto a file (or vice-versa)? Check if the specified host path exists and is the expected type
+command terminated with exit code 126
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec pvdeploy-7bfd8c7c9-4g7p8  - it -- /bin/bash/
+OCI runtime exec failed: exec failed: unable to start container process: exec: "/bin/bash/": stat /bin/bash/: not a directory: unknown: Are you trying to mount a directory onto a file (or vice-versa)? Check if the specified host path exists and is the expected type
+command terminated with exit code 126
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec pvdeploy-7bfd8c7c9-4g7p8  - it -- /bin/bash
+developer@nisarg-HP-Pavilion-Gaming-Laptop-15-dk0xxx:~$ kubectl exec pvdeploy-7bfd8c7c9-4g7p8  -it -- /bin/bash
+[root@pvdeploy-7bfd8c7c9-4g7p8 /]# tmp/persistant                    
+bash: tmp/persistant: No such file or directory
+[root@pvdeploy-7bfd8c7c9-4g7p8 /]# tmp/persistent/
+bash: tmp/persistent/: Is a directory
+[root@pvdeploy-7bfd8c7c9-4g7p8 /]# cd /tmp/persistent/
+[root@pvdeploy-7bfd8c7c9-4g7p8 persistent]# ls
+[root@pvdeploy-7bfd8c7c9-4g7p8 persistent]# nano 1.txt
+bash: nano: command not found
+[root@pvdeploy-7bfd8c7c9-4g7p8 persistent]# vi 1.txt
+[root@pvdeploy-7bfd8c7c9-4g7p8 persistent]# command terminated with exit code 137
