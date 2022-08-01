@@ -1,0 +1,414 @@
+vagrant@master:~$ helm version
+version.BuildInfo{Version:"v3.9.2", GitCommit:"1addefbfe665c350f4daf868a9adc5600cc064fd", GitTreeState:"clean", GoVersion:"go1.17.12"}
+vagrant@master:~$ kubectil get all
+-bash: kubectil: command not found
+vagrant@master:~$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3d10h
+vagrant@master:~$ helm create springboot
+Creating springboot
+vagrant@master:~$ ls
+get_helm.sh  kube-flannel.yml  springboot
+vagrant@master:~$ tree springboot/
+-bash: tree: command not found
+vagrant@master:~$ sudo apt-get install tree
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  tree
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 43.0 kB of archives.
+After this operation, 115 kB of additional disk space will be used.
+Get:1 http://in.archive.ubuntu.com/ubuntu focal/universe amd64 tree amd64 1.8.0-1 [43.0 kB]
+Fetched 43.0 kB in 0s (117 kB/s)
+Selecting previously unselected package tree.
+(Reading database ... 41488 files and directories currently installed.)
+Preparing to unpack .../tree_1.8.0-1_amd64.deb ...
+Unpacking tree (1.8.0-1) ...
+Setting up tree (1.8.0-1) ...
+Processing triggers for man-db (2.9.1-1) ...
+vagrant@master:~$ tree springboot/
+springboot/
+├── charts
+├── Chart.yaml
+├── templates
+│   ├── deployment.yaml
+│   ├── _helpers.tpl
+│   ├── hpa.yaml
+│   ├── ingress.yaml
+│   ├── NOTES.txt
+│   ├── serviceaccount.yaml
+│   ├── service.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml
+
+3 directories, 10 files
+vagrant@master:~$ nano Chart.yaml
+vagrant@master:~$ cd springboot/
+vagrant@master:~/springboot$ nano Chart.yaml 
+vagrant@master:~/springboot$ nano values.yaml
+vagrant@master:~/springboot$ nano values.yaml
+vagrant@master:~/springboot$ nano deployment.yaml
+vagrant@master:~/springboot$ nano templates/deployment.yaml
+vagrant@master:~/springboot$ cd ..
+vagrant@master:~$ helm template springboot
+---
+# Source: springboot/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-springboot
+  labels:
+    helm.sh/chart: springboot-0.1.0
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: springboot/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-springboot
+  labels:
+    helm.sh/chart: springboot-0.1.0
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: release-name
+---
+# Source: springboot/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-springboot
+  labels:
+    helm.sh/chart: springboot-0.1.0
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: springboot
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: springboot
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: release-name-springboot
+      securityContext:
+        {}
+      containers:
+        - name: springboot
+          securityContext:
+            {}
+          image: "rahulwagh17/kubernetes:jhooq-k8s-springboot:"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+         # livenessProbe:
+          #  httpGet:
+           #   path: /
+            #  port: http
+         # readinessProbe:
+          #  httpGet:
+           #   path: /
+            #  port: http
+          resources:
+            {}
+---
+# Source: springboot/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-springboot-test-connection"
+  labels:
+    helm.sh/chart: springboot-0.1.0
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['release-name-springboot:8080']
+  restartPolicy: Never
+vagrant@master:~$ helm lint springboot
+==> Linting springboot
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+vagrant@master:~$ helm install springboot --debug --dry-run springboot
+install.go:178: [debug] Original chart version: ""
+install.go:195: [debug] CHART PATH: /home/vagrant/springboot
+
+NAME: springboot
+LAST DEPLOYED: Mon Aug  1 03:21:36 2022
+NAMESPACE: default
+STATUS: pending-install
+REVISION: 1
+USER-SUPPLIED VALUES:
+{}
+
+COMPUTED VALUES:
+affinity: {}
+autoscaling:
+  enabled: false
+  maxReplicas: 100
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 80
+fullnameOverride: ""
+image:
+  pullPolicy: IfNotPresent
+  repository: rahulwagh17/kubernetes:jhooq-k8s-springboot
+  tag: ""
+imagePullSecrets: []
+ingress:
+  annotations: {}
+  className: ""
+  enabled: false
+  hosts:
+  - host: chart-example.local
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+  tls: []
+nameOverride: ""
+nodeSelector: {}
+podAnnotations: {}
+podSecurityContext: {}
+replicaCount: 1
+resources: {}
+securityContext: {}
+service:
+  port: 8080
+  type: ClusterIP
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+tolerations: []
+
+HOOKS:
+---
+# Source: springboot/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "springboot-test-connection"
+  labels:
+    helm.sh/chart: springboot-0.1.0
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: springboot
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['springboot:8080']
+  restartPolicy: Never
+MANIFEST:
+---
+# Source: springboot/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: springboot
+  labels:
+    helm.sh/chart: springboot-0.1.0
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: springboot
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: springboot/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot
+  labels:
+    helm.sh/chart: springboot-0.1.0
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: springboot
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: springboot
+---
+# Source: springboot/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot
+  labels:
+    helm.sh/chart: springboot-0.1.0
+    app.kubernetes.io/name: springboot
+    app.kubernetes.io/instance: springboot
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: springboot
+      app.kubernetes.io/instance: springboot
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: springboot
+        app.kubernetes.io/instance: springboot
+    spec:
+      serviceAccountName: springboot
+      securityContext:
+        {}
+      containers:
+        - name: springboot
+          securityContext:
+            {}
+          image: "rahulwagh17/kubernetes:jhooq-k8s-springboot:"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+         # livenessProbe:
+          #  httpGet:
+           #   path: /
+            #  port: http
+         # readinessProbe:
+          #  httpGet:
+           #   path: /
+            #  port: http
+          resources:
+            {}
+
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=springboot,app.kubernetes.io/instance=springboot" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+vagrant@master:~$ helm install myfirstspringboot springboot
+NAME: myfirstspringboot
+LAST DEPLOYED: Mon Aug  1 03:22:19 2022
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=springboot,app.kubernetes.io/instance=myfirstspringboot" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+vagrant@master:~$ helm list -a
+NAME             	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART           	APP VERSION
+myfirstspringboot	default  	1       	2022-08-01 03:22:19.006657017 +0000 UTC	deployed	springboot-0.1.0	1.16.0     
+vagrant@master:~$ kubectl get all
+NAME                                     READY   STATUS    RESTARTS   AGE
+pod/myfirstspringboot-84556895c5-xkgs7   0/1     Pending   0          92s
+
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/kubernetes          ClusterIP   10.96.0.1        <none>        443/TCP    3d11h
+service/myfirstspringboot   ClusterIP   10.108.203.155   <none>        8080/TCP   92s
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/myfirstspringboot   0/1     1            0           92s
+
+NAME                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/myfirstspringboot-84556895c5   1         1         0       92s
+vagrant@master:~$ cd springboot/
+vagrant@master:~/springboot$ nano values.yaml
+vagrant@master:~/springboot$ cd ..
+vagrant@master:~$ helm upgrade myspringboot myfirstspringboot springboot
+Error: "helm upgrade" requires 2 arguments
+
+Usage:  helm upgrade [RELEASE] [CHART] [flags]
+vagrant@master:~$ cd springboot/
+vagrant@master:~/springboot$ nano Chart.yaml 
+vagrant@master:~/springboot$ cd ..
+vagrant@master:~$ helm upgrade myfirstspringboot springboot
+Release "myfirstspringboot" has been upgraded. Happy Helming!
+NAME: myfirstspringboot
+LAST DEPLOYED: Mon Aug  1 03:30:24 2022
+NAMESPACE: default
+STATUS: deployed
+REVISION: 2
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=springboot,app.kubernetes.io/instance=myfirstspringboot" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+vagrant@master:~$ kubectl get all
+NAME                                     READY   STATUS    RESTARTS   AGE
+pod/myfirstspringboot-84556895c5-mkqs7   0/1     Pending   0          23s
+pod/myfirstspringboot-84556895c5-xkgs7   0/1     Pending   0          8m29s
+
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/kubernetes          ClusterIP   10.96.0.1        <none>        443/TCP    3d11h
+service/myfirstspringboot   ClusterIP   10.108.203.155   <none>        8080/TCP   8m29s
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/myfirstspringboot   0/2     2            0           8m29s
+
+NAME                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/myfirstspringboot-84556895c5   2         2         0       8m29s
+vagrant@master:~$ helm rollback  myfirstspringboot 1
+Rollback was a success! Happy Helming!
+vagrant@master:~$ helm list -a
+NAME             	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART           	APP VERSION
+myfirstspringboot	default  	3       	2022-08-01 03:31:30.922316197 +0000 UTC	deployed	springboot-0.1.0	1.16.0     
+vagrant@master:~$ kubectl get all
+NAME                                     READY   STATUS    RESTARTS   AGE
+pod/myfirstspringboot-84556895c5-xkgs7   0/1     Pending   0          9m36s
+
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/kubernetes          ClusterIP   10.96.0.1        <none>        443/TCP    3d11h
+service/myfirstspringboot   ClusterIP   10.108.203.155   <none>        8080/TCP   9m36s
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/myfirstspringboot   0/1     1            0           9m36s
+
+NAME                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/myfirstspringboot-84556895c5   1         1         0       9m36s
+vagrant@master:~$ helm delete myspringboot
+Error: uninstall: Release not loaded: myspringboot: release: not found
+vagrant@master:~$ helm delete myfirstspringboot
+release "myfirstspringboot" uninstalled
+vagrant@master:~$ helm list -a
+NAME	NAMESPACE	REVISION	UPDATED	STATUS	CHART	APP VERSION
